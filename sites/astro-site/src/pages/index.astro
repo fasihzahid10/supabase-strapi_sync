@@ -1,0 +1,148 @@
+---
+const res = await fetch(import.meta.env.PUBLIC_STRAPI_URL + "/api/entries");
+const json = await res.json();
+
+// Handle both Strapi v4 and v5 formats
+const entries = (json.data || []).map((item) => {
+  const attrs = item.attributes ?? item;
+  return {
+    id: item.id,
+    title: attrs.title ?? "Untitled",
+    description: attrs.description ?? "No description provided",
+    timestamp: attrs.timestamp ?? null,
+  };
+});
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Entries (Astro)</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, "Inter", sans-serif;
+        background: #f8fafc;
+        color: #1e293b;
+        margin: 0;
+        padding: 0;
+      }
+
+      main {
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 0 1rem 3rem;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin: 0;
+        color: #0f172a;
+      }
+
+      .subtitle {
+        color: #64748b;
+        font-size: 0.95rem;
+        margin-top: 0.3rem;
+      }
+
+      .badge {
+        background: #e2e8f0;
+        color: #0f172a;
+        padding: 0.3rem 0.8rem;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+
+      .entries {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1rem;
+      }
+
+      article {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1.2rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      article:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      article h2 {
+        font-size: 1.2rem;
+        color: #1e293b;
+        margin-top: 0;
+        margin-bottom: 0.4rem;
+      }
+
+      article p {
+        font-size: 0.95rem;
+        color: #475569;
+        line-height: 1.5;
+        margin-bottom: 0.8rem;
+      }
+
+      article small {
+        font-size: 0.8rem;
+        color: #94a3b8;
+      }
+
+      .empty {
+        background: white;
+        border: 1px dashed #cbd5e1;
+        border-radius: 12px;
+        padding: 3rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <div>
+          <h1>Entries (Astro)</h1>
+          <p class="subtitle">Synced live from Strapi → Supabase → Astro</p>
+        </div>
+        <span class="badge">
+          {entries.length} {entries.length === 1 ? "Entry" : "Entries"}
+        </span>
+      </header>
+
+      {entries.length === 0 ? (
+        <div class="empty">
+          <h2>No entries found</h2>
+          <p>Try adding one in Strapi or Supabase.</p>
+        </div>
+      ) : (
+        <div class="entries">
+          {entries.map((e) => (
+            <article key={e.id}>
+              <h2>{e.title}</h2>
+              <p>{e.description}</p>
+              <small>
+                {e.timestamp
+                  ? new Date(e.timestamp).toLocaleString()
+                  : "No timestamp"}
+              </small>
+            </article>
+          ))}
+        </div>
+      )}
+    </main>
+  </body>
+</html>

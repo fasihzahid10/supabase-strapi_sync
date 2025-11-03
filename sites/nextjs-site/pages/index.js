@@ -3,7 +3,7 @@ export default function Home({ entries }) {
     <main style={styles.container}>
       <header style={styles.header}>
         <div>
-          <h1 style={styles.title}>Public Entries</h1>
+          <h1 style={styles.title}>Public Entries in Next.js</h1>
           <p style={styles.subtitle}>Synced from Strapi (powered by Supabase)</p>
         </div>
         <span style={styles.badge}>

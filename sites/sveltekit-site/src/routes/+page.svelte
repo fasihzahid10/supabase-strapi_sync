@@ -10,8 +10,8 @@
 <div class="page">
   <header class="topbar">
     <div>
-      <h1>Entries</h1>
-      <p class="subtitle">Data coming from Strapi (synced with Supabase)</p>
+      <h1>Sveltekit Entries</h1>
+      <p class="subtitle">Data coming from Strapi (synced with Supabase) in sveltekit</p>
     </div>
     <div class="badge">
       {entries.length} {entries.length === 1 ? 'entry' : 'entries'}

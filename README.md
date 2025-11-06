@@ -1,4 +1,4 @@
-#Supabase Strapi Sync
+## Supabase Strapi Sync
 
 This folder contains:
 - React admin panel

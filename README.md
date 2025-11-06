@@ -1,4 +1,4 @@
-# Lead FS Assessment (ready-to-run skeleton)
+#Supabase Strapi Sync
 
 This folder contains:
 - React admin panel
